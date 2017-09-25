@@ -1,4 +1,4 @@
-package main
+package server
 
 import (
 	"math/rand"
@@ -7,11 +7,11 @@ import (
 
 //Payload the data to be processed, in this example is a string
 type Payload struct {
-	magic string
+	Magic string
 }
 
 //ProcessPayload what to do with it?
-type ProcessPayload func(p Job) error
+type ProcessPayload func(w *Worker, p Job) error
 
 // Job represents the task/job to be run, with the payload
 type Job struct {
@@ -25,6 +25,7 @@ type Worker struct {
 	quit               chan bool
 	dispatcherJobQueue chan Job
 	process            ProcessPayload
+	ID                 string //for debuging purposes
 }
 
 //NewWorker workers are the foundation of our queue system
@@ -39,7 +40,7 @@ func NewWorker(workerPool chan chan Job, p ProcessPayload) Worker {
 
 // Start method starts the run loop for the worker, listening for a quit channel in
 // case we need to stop it
-func (w Worker) Start() {
+func (w *Worker) Start() {
 	go func() {
 		for {
 			// register the current worker into the worker queue.
@@ -49,7 +50,7 @@ func (w Worker) Start() {
 			select {
 			case job := <-w.JobChannel:
 				// we have received a work request.
-				w.process(job)
+				w.process(w, job)
 
 				//simulating a very long time to process
 				//so we can understand the process

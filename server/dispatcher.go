@@ -1,4 +1,4 @@
-package main
+package server
 
 //Dispatcher Keeps the things together, a controller.
 type Dispatcher struct {
@@ -27,6 +27,7 @@ func (d *Dispatcher) Run() {
 	// starting n number of workers
 	for i := 0; i < d.MaxWorkers; i++ {
 		worker := NewWorker(d.WorkerPool, d.processFunction)
+		worker.ID = "worker " + string(i+1)
 		d.Workers = append(d.Workers, worker)
 		worker.Start()
 	}
@@ -56,4 +57,12 @@ func (d *Dispatcher) dispatch() {
 			}(job)
 		}
 	}
+}
+
+//DispatchJob send a job to the workers
+func (d *Dispatcher) DispatchJob(j *Job) {
+	go func() {
+		// Push the work onto the queue.
+		d.JobQueue <- *j
+	}()
 }

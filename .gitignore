@@ -37,8 +37,7 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-.vscode/*
-
 debug*
 profile*
 !benchmark.log
+server.exe
