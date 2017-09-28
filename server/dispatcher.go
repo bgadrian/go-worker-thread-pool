@@ -1,5 +1,9 @@
 package server
 
+import (
+	"strconv"
+)
+
 //Dispatcher Keeps the things together, a controller.
 type Dispatcher struct {
 	// A pool of workers channels that are registered with the dispatcher
@@ -27,7 +31,7 @@ func (d *Dispatcher) Run() {
 	// starting n number of workers
 	for i := 0; i < d.MaxWorkers; i++ {
 		worker := NewWorker(d.WorkerPool, d.processFunction)
-		worker.ID = "worker " + string(i+1)
+		worker.ID = "worker-" + strconv.Itoa(i+1)
 		d.Workers = append(d.Workers, worker)
 		worker.Start()
 	}

@@ -44,9 +44,10 @@ func payloadHandler(d *Dispatcher, w http.ResponseWriter, r *http.Request) {
 //Use a mutex fo production, and GorillaWebsocket
 var wsList []*websocket.Conn
 
-type msg struct {
-	workerID string
-	status   string
+//WorkerUpdate worker status update msg to clients
+type WorkerUpdate struct {
+	WorkerID string `json:"WorkerID"`
+	Status   string `json:"Status"`
 }
 
 func websocketHandler(w http.ResponseWriter, r *http.Request) {
@@ -60,11 +61,15 @@ func websocketHandler(w http.ResponseWriter, r *http.Request) {
 
 //clientStream send status update for all workers to all clients
 func clientStream(w *Worker, status string) {
+	m := WorkerUpdate{w.ID, status}
+	// log.Println("stream to clients", wsList, m)
+
 	for _, ws := range wsList {
-		err := ws.WriteJSON(msg{w.ID, status})
+		err := ws.WriteJSON(m)
 
 		if err != nil {
 			//remove connection from wsList
+			log.Println(err)
 		}
 	}
 }

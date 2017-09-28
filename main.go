@@ -11,8 +11,8 @@ import (
 )
 
 func main() {
-	MaxWorker := flag.Uint("MAX_WORKERS", 10, "max nr of workers")
-	MaxQueue := flag.Uint("MAX_QUEUE", 100, "max nr of jobs in queue")
+	MaxWorker := flag.Uint("MAX_WORKERS", 5, "max nr of workers")
+	MaxQueue := flag.Uint("MAX_QUEUE", 10, "max nr of jobs in queue")
 	flag.Parse()
 
 	//every payload (request to /job) from the client is sent here

@@ -1,7 +1,8 @@
+var globalCounter = 0
 
 window.addEventListener('load', function () {
     console.log('All assets are loaded')
-    updateWorker({ workerID: "111", status: "sssss" })
+    // updateWorker({ workerID: "111", status: "sssss" })
 
     Array
         .from(document.getElementsByClassName("job"))
@@ -13,30 +14,35 @@ window.addEventListener('load', function () {
 })
 
 var updateWorker = function (p) {
-    workerID = p.workerID
-    status = p.status
+    var workerID = p["WorkerID"]
+    var status = p["Status"]
 
-    domStatus = document.getElementById("w-st-" + workerID)
+    var statusID = "w-st-" + workerID
+    var domStatus = document.getElementById(statusID)
+
+    console.log("updateWorker", JSON.stringify(p), statusID, domStatus)
     if (domStatus == null) {
         //we need to create it
-        domWorker = document.createElement("div")
+        var domWorker = document.createElement("div")
         domWorker.setAttribute("id", "w-" + workerID)
         domWorkers = document.getElementById("workers")
         domWorkers.appendChild(domWorker)
 
-        domTitle = document.createElement("h5")
+        var domTitle = document.createElement("h5")
         domTitle.textContent = workerID
         domWorker.appendChild(domTitle)
 
-        domStatus = document.createElement("span")
+        var domStatus = document.createElement("span")
         domStatus.setAttribute("id", "w-st-" + workerID)
-        domStatus.textContent = status
         domWorker.appendChild(domStatus)
     }
+
+    domStatus.textContent = status
 }
 
 var sendJob = function () {
     magic = this.textContent
+    magic += "[" + (globalCounter++) + "]"
     request = new Request("/job",
         {
             method: 'POST',
@@ -64,6 +70,6 @@ var listenWorkers = function () {
     socket.onmessage = function (msg) {
         json = JSON.parse(msg.data)
 
-        console.log(msg.data)
+        updateWorker(json)
     }
 }
