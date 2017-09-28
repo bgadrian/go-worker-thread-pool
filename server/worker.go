@@ -1,7 +1,6 @@
 package server
 
 import (
-	"math/rand"
 	"time"
 )
 
@@ -46,15 +45,24 @@ func (w *Worker) Start() {
 			// register the current worker into the worker queue.
 			//this is the worker's way to say "I'm free! give me a job!"
 			w.WorkerPool <- w.JobChannel
+			clientStream(w, "IDLE")
 
 			select {
 			case job := <-w.JobChannel:
 				// we have received a work request.
-				w.process(w, job)
+				clientStream(w, "received: "+job.Payload.Magic)
+				time.Sleep(2 * time.Second) //fake time
 
-				//simulating a very long time to process
-				//so we can understand the process
-				time.Sleep(time.Duration(rand.Intn(5)+3) * time.Second)
+				clientStream(w, "processing: "+job.Payload.Magic)
+				err := w.process(w, job)
+
+				if err == nil {
+					clientStream(w, "finished: "+job.Payload.Magic)
+				} else {
+					clientStream(w, "failed: "+job.Payload.Magic)
+				}
+
+				time.Sleep(2 * time.Second) //fake time
 
 			case <-w.quit:
 				// we have received a signal to stop

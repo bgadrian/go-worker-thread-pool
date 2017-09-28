@@ -5,7 +5,7 @@
     "tasks": [
         {
             "taskName": "build & run",
-            "command": "go build -x -o server.exe && ./server.exe",
+            "command": "go build -o server.exe && ./server.exe",
             "group": {
                 "isDefault": true,
                 "kind": "build"

@@ -22,7 +22,9 @@ func main() {
 			return errors.New("error")
 		}
 		log.Printf("processing '%v' by %v\n", text, w.ID)
-		time.Sleep(3 + time.Duration(rand.Intn(3)))
+		//simulating a very long time to process
+		//so we can understand the process
+		time.Sleep(time.Duration(rand.Intn(5)+3) * time.Second)
 		log.Printf("done processing '%v' by %v\n", text, w.ID)
 		return nil
 	}
