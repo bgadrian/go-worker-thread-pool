@@ -26,12 +26,12 @@ I want to get a better grasp of the pattern so I made a dummy  running example, 
 ### Usage
 
 ```bash
-git clone git@github.com:bgadrian/go-worker-thread-pool.git
-cd go-worker-thread-pool/
+go get github.com:bgadrian/go-worker-thread-pool
 
 #make sure you have port 8080 free
 #for windows 
-go build -o server.exe && ./server.exe -MAX_WORKERS=5
+cd %GOPATH%/src/github.com/bgadrian/go-worker-thread-pool/
+go build -o server.exe & server.exe -MAX_WORKERS=5
 #for Linux/MacOS
 go build -o webserver && chmod +x ./webserver && ./webserver -MAX_WORKERS=5
 
