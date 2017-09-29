@@ -17,7 +17,10 @@ Visual implementation of a Concurrent Pattern more exactly a [Thread Pool](https
 
 I want to get a better grasp of the pattern so I made a dummy  running example, with a few alternations. I also added a visual representation using a HTML basic client & websockets. The user can send fake jobs to process, and everything is slowed down (to seconds) so the user can observe the worker behaviours.
 
+![diagram](./diagram.png)
+
 ### Demo 
+
 ![alt text](./demo.gif)
 
 ### Usage
