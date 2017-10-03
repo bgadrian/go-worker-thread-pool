@@ -26,7 +26,7 @@ I want to get a better grasp of the pattern so I made a dummy  running example, 
 ### Usage
 
 ```bash
-go get github.com:bgadrian/go-worker-thread-pool
+go get github.com/bgadrian/go-worker-thread-pool
 
 #make sure you have port 8080 free
 #for windows 
