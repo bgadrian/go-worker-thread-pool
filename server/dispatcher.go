@@ -14,7 +14,7 @@ type Dispatcher struct {
 	processFunction ProcessPayload
 }
 
-//NewDispatcher Create a new instance
+//NewDispatcher Create a new instance of a worker controller
 func NewDispatcher(maxWorkers, maxQueue int, p ProcessPayload) *Dispatcher {
 	pool := make(chan chan Job, maxWorkers)
 	jobq := make(chan Job, maxQueue)
@@ -26,7 +26,7 @@ func NewDispatcher(maxWorkers, maxQueue int, p ProcessPayload) *Dispatcher {
 	}
 }
 
-//Run start listening and hire the workers
+//Run start listening and generate the workers
 func (d *Dispatcher) Run() {
 	// starting n number of workers
 	for i := 0; i < d.MaxWorkers; i++ {

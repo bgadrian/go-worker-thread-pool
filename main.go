@@ -15,6 +15,13 @@ func main() {
 	MaxQueue := flag.Uint("MAX_QUEUE", 10, "max nr of jobs in queue")
 	flag.Parse()
 
+	if (*MaxWorker < uint(1)){
+		log.Fatal("The dispatcher needs at least 1 worker.")
+	}
+	if (*MaxQueue < uint(1)){
+		log.Fatal("The queue size needs to be at least 1.")
+	}
+
 	//every payload (request to /job) from the client is sent here
 	processator := func(w *server.Worker, j server.Job) error {
 		text := j.Payload.Magic
